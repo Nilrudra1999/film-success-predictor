@@ -1,0 +1,14 @@
+# contains private API keys, and DB information
+# not safe for public github repo exposure
+.env
+
+# database object files, size is too large for github upload
+# a .csv file package for DB tables will be provided instead 
+imdb_analytics*
+
+# compiled, env, and large dataset files
+__pycache__
+data/title.basics.tsv
+.vscode/
+venv/
+daily_run_threshold.txt
