@@ -4,9 +4,6 @@
     Author: Nilrudra Mukhopadhyay
     Email: nilrudram@gmail.com
     Github: github.com/Nilrudra1999
-    --------------------------------------------------------------------------------------------
-    ETL pipeline relies on local Microsoft SQL express server for data warehousing, and fetches
-    data from all used APIs based on IMDb IDs, extracted from IMDb public dataset tsv file.
 ------------------------------------------------------------------------------------------------"""
 from csv import DictReader
 
@@ -19,8 +16,6 @@ def extract_ids_from_dataset(base_directory):
     extracted IDs into a text file which the ETL pipeline uses to request data from APIs.
     
     Args: base_directory (string): root to directory path
-    
-    Returns: Nothing, only performs actions and creates a text file
     """
     tsv  = base_directory / "data" / "title.basics.tsv"
     text = base_directory / "data" / "imdb_movie_ids.txt"

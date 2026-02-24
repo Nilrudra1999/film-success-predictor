@@ -4,9 +4,6 @@
     Author: Nilrudra Mukhopadhyay
     Email: nilrudram@gmail.com
     Github: github.com/Nilrudra1999
-    --------------------------------------------------------------------------------------------
-    ETL pipeline relies on local Microsoft SQL express server for data warehousing, and fetches
-    data from all used APIs based on IMDb IDs, extracted from IMDb public dataset tsv file.
 ------------------------------------------------------------------------------------------------"""
 from json import loads
 import pandas as pd
