@@ -1,5 +1,5 @@
 """------------------------------------------------------------------------------------------------
-    Predictor View File - UI class for machine learning prediction screen
+    Add Movie View File - UI class for adding movies to the local database
     --------------------------------------------------------------------------------------------
     Author: Nilrudra Mukhopadhyay
     Email: nilrudram@gmail.com
@@ -8,12 +8,12 @@
 from tkinter import Frame
 from tkinter import Label
 
-class PredictorView(Frame):
+class AddMovieView(Frame):
     """
-    Predictor UI class inherited from the Tkinter Frame class, contains the UI elements for the
-    predicting the success of a movie after being presented with some information. The view
-    will contain a form like section to accept movie info along with a data visualization zone
-    for displaying the predictive analytics for the movie.
+    Add movie UI class inherited from the Tkinter Frame class, connects to the app controller
+    and provides a collection of widgets/UI elements which allow users to add movies to the 
+    local database. The view will contain a form to collect movie information and will auto
+    check if the information being entered is correct or already existing internally.
     """
     def __init__(self, controller) -> None:
         super().__init__(controller.get_window())
@@ -21,7 +21,7 @@ class PredictorView(Frame):
         
         self.label = Label(
             self,
-            text="UI for Predicting Movie Success",
+            text="UI for Adding Movies",
             font=("Terminal", 18)
         )
         self.label.pack(pady=50)

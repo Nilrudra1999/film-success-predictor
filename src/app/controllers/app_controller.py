@@ -8,6 +8,7 @@
 from tkinter import Tk
 from views.home_view import HomeView
 from views.predictor_view import PredictorView
+from views.add_movie_view import AddMovieView
 
 class AppController:
     """
@@ -17,29 +18,22 @@ class AppController:
     a bridge between the views and the models.
     """
     def __init__(self) -> None:
-        self.window = Tk()
-        self.window.title("Film Success Predictor")
-        self.window.geometry("1280x720")
-        self.window.resizable(width=False, height=False)
+        self.__window = Tk()
+        self.__window.title("Film Success Predictor")
+        self.__window.geometry("1280x720")
+        self.__window.resizable(width=False, height=False)
         
-        self.views = {}
-        self.views['home view'] = HomeView(self)
-        self.views['predictor view'] = PredictorView(self)
+        self.__views = {}
+        self.__views['home view'] = HomeView(self)
+        self.__views['predictor view'] = PredictorView(self)
+        self.__views['add movie view'] = AddMovieView(self)
+    
     
     
     def get_window(self):
-        return self.window
+        return self.__window
     
     
     def launch(self):
-        self.views['home view'].pack(expand=True, fill="both")
-        self.window.mainloop()
-    
-    
-    def switch_views(self, old_view: str, new_view: str):
-        self.views[old_view].pack_forget()
-        self.views[new_view].pack(expand=True, fill="both")
-    
-    
-    def print_view_message(self, text: str):
-        print(text)
+        self.__views['home view'].pack(expand=True, fill="both")
+        self.__window.mainloop()

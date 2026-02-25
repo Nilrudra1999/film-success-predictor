@@ -5,7 +5,7 @@
     Email: nilrudram@gmail.com
     Github: github.com/Nilrudra1999
 ------------------------------------------------------------------------------------------------"""
-from app_controller import AppController
+from controllers.app_controller import AppController
 
 # Initializing the app and passing control to its controller
 if __name__ == "__main__":
