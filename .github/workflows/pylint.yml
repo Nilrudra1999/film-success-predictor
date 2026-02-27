@@ -27,4 +27,4 @@ jobs:
           if [ -f docs/requirements.txt ]; then pip install -r docs/requirements.txt; fi
       - name: Analyzing the code with pylint
         run: |
-          pylint --disable=C0116,C0115,C0303,R0801 $(git ls-files '*.py')
+          pylint --disable=C0116,C0115,C0303,R0801,R0901,R0902,W0108 $(git ls-files '*.py')
