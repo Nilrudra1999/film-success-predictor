@@ -5,85 +5,76 @@
     Email: nilrudram@gmail.com
     Github: github.com/Nilrudra1999
 ------------------------------------------------------------------------------------------------"""
-from tkinter import Frame
-from tkinter import Canvas
-from tkinter import Button
+from customtkinter import CTkFrame
+from customtkinter import CTkLabel
+from customtkinter import CTkButton
 
-class HomeView(Frame):
+BG_COLOR_ALL = "transparent"
+TEXT_PRIMARY_COLOR = "#b01756"
+TEXT_SECONDARY_COLOR = "#b42b68"
+TILE_FOCUS_COLOR = "#292450"
+
+
+class HomeView(CTkFrame):
     """
-    Home view class inherited from the Tkinter Frame class, contains the widgets and UI 
-    elements for the home/landing screen of the app. The UI here will contain two buttons for
-    predicting the success of a movie or adding a released movie to the database locally. The
-    UI will also contain hidden text boxes for showing messages, a title with stylized text,
-    and a custom background.
+    Home view class inherited from Custom Tkinter Frame class, contains the UI elements for 
+    the home screen of the app. The UI contains buttons to predict movie success or add newly 
+    released movies to the local database. The UI also contains button-hover triggered texts.
     """
-    def __init__(self, controller) -> None:
-        super().__init__(controller.get_window())
+    def __init__(self, controller, window) -> None:
+        super().__init__(window, fg_color=BG_COLOR_ALL)
         self.controller = controller
-        self.canvas = self.make_background(1280, 720)
-        self.title1 = self.canvas.create_text(
-            640,
-            150,
-            text="Film Success",
-            fill="#2c6eb2",
-            font=("System", 64, "bold")
+        self.title1 = CTkLabel(
+            self, text="Film Success", text_color=TEXT_PRIMARY_COLOR,
+            fg_color="transparent", font=("System", 64, "bold")
         )
-        self.title2 = self.canvas.create_text(
-            640,
-            230,
-            text="P R E D I C T O R",
-            fill="#164a97",
-            font=("System", 52, "bold")
+        self.title2 = CTkLabel(
+            self, text="P R E D I C T O R", text_color=TEXT_SECONDARY_COLOR,
+            fg_color="transparent", font=("System", 128)
         )
-        self.predict_btn = self.make_button("Predict Film's Success", 0.6)
-        # self.add_movie_btn = self.make_button("Add Released Movie", 6.0)
-    
-    
-    
-    def get_color_at_position(self, ratio: float):
-        color_top = (31, 9, 70)
-        color_bot = (10, 7, 31)
-        r = int(color_top[0] + (color_bot[0] - color_top[0]) * ratio)
-        g = int(color_top[1] + (color_bot[1] - color_top[1]) * ratio)
-        b = int(color_top[2] + (color_bot[2] - color_top[2]) * ratio)
-        return f'#{r:02x}{g:02x}{b:02x}'
-    
-    
-    
-    def make_background(self, width: int, height: int):
-        canvas = Canvas(self, width=width, height=height, highlightthickness=0)
-        canvas.pack(fill="both", expand=True)
-        color_top = (31, 9, 70)
-        color_bot = (10, 7, 31)
-        for i in range(720):
-            ratio = i / 720
-            r = int(color_top[0] + (color_bot[0] - color_top[0]) * ratio)
-            g = int(color_top[1] + (color_bot[1] - color_top[1]) * ratio)
-            b = int(color_top[2] + (color_bot[2] - color_top[2]) * ratio)
-            color_hex = f'#{r:02x}{g:02x}{b:02x}'
-            canvas.create_line(0, i, 1280, i, fill=color_hex)
-        return canvas
-    
-    
-    
-    def make_button(self, btn_text: str, y_pos_ratio: int):
-        target_y = int(720 * y_pos_ratio) 
-        btn_base_color = self.get_color_at_position(y_pos_ratio)
-        btn_interact_color = "#09071c"
-        btn_text_color  = "#2c6eb2"
-        button = Button(
-            self.canvas,
-            text=btn_text,
-            background=btn_base_color,
-            foreground=btn_text_color,
-            activebackground=btn_interact_color,
-            activeforeground=btn_text_color,
-            font=("System", 18),
-            bd=0,
-            highlightthickness=0,
-            padx=40,
-            pady=10,
-            cursor="hand2"
+        self.title1.pack(pady=(150, 0))
+        self.title2.pack()
+
+        self.btn_frame = CTkFrame(self, fg_color=BG_COLOR_ALL)
+        self.btn_frame.pack(pady=50)
+        self.subtext_frame = CTkFrame(self, fg_color=BG_COLOR_ALL)
+        self.subtext_frame.pack(pady=10) # explains button functions
+        
+        self.predict_btn = self.make_button(
+            self.btn_frame, "Make Prediction",
+            "Uses ML to estimate box office and ratings performance",
+            lambda: self.controller.home_view_event_predict_movie()
         )
-        self.canvas.create_window(640, target_y, window=button)
-        return button
+        self.add_movie_btn = self.make_button(
+            self.btn_frame, "Add New Movie",
+            "Updates the local database with new a new movie",
+            lambda: self.controller.home_view_event_add_movie()
+        )
+        self.predict_btn.pack(side="left", padx=20)
+        self.add_movie_btn.pack(side="left", padx=20)
+        
+        self.button_info = CTkLabel( # explains button functions
+            self.subtext_frame, text="", font=("System", 22),
+            text_color=TEXT_SECONDARY_COLOR
+        )
+        self.button_info.pack()
+    
+    
+    
+    def make_button(self, root, text: str, subtext: str, function):
+        btn = CTkButton(
+            root, width=275, height=45, 
+            text=text, font=("System", 32),
+            text_color=TEXT_PRIMARY_COLOR, 
+            fg_color=BG_COLOR_ALL,
+            hover=False, command=function
+        )
+        btn.bind("<Enter>", lambda e: [
+            btn.configure(fg_color=TILE_FOCUS_COLOR),
+            self.button_info.configure(text=subtext)
+        ])
+        btn.bind("<Leave>", lambda e: [
+            btn.configure(fg_color=BG_COLOR_ALL),
+            self.button_info.configure(text="")
+        ])
+        return btn

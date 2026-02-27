@@ -5,23 +5,11 @@
     Email: nilrudram@gmail.com
     Github: github.com/Nilrudra1999
 ------------------------------------------------------------------------------------------------"""
-from tkinter import Frame
-from tkinter import Label
-
-class PredictorView(Frame):
+class PredictorView():
     """
-    Predictor UI class inherited from the Tkinter Frame class, contains the UI elements for the
-    predicting the success of a movie after being presented with some information. The view
-    will contain a form like section to accept movie info along with a data visualization zone
-    for displaying the predictive analytics for the movie.
+    Predictor UI class inherited from Custom Tkinter Frame class, contains UI elements for 
+    predicting the success of movies when presented with information. The view contains a form 
+    section to accept movie info and data visualization zone to display predictive analytics.
     """
-    def __init__(self, controller) -> None:
-        super().__init__(controller.get_window())
-        self.controller = controller
-        
-        self.label = Label(
-            self,
-            text="UI for Predicting Movie Success",
-            font=("Terminal", 18)
-        )
-        self.label.pack(pady=50)
+    def __init__(self, controller, window) -> None:
+        pass
