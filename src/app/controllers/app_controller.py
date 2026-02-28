@@ -37,19 +37,30 @@ class AppController:
         }
     
     
-    
     def get_window(self):
         return self.__window
-    
+
     
     def launch(self):
         self.__views["home view"].pack(expand=True, fill="both")
         self.__window.mainloop()
     
-    
+
     def home_view_event_predict_movie(self):
-        print("Predicting movies")
+        self.__views["home view"].pack_forget()
+        self.__views["predictor view"].pack(expand=True, fill="both")
     
-    
+
     def home_view_event_add_movie(self):
-        print("Adding movies")
+        self.__views["home view"].pack_forget()
+        self.__views["add movie view"].pack(expand=True, fill="both")
+
+
+    def predict_view_event_go_back(self):
+        self.__views["predictor view"].pack_forget()
+        self.__views["home view"].pack(expand=True, fill="both")
+
+    
+    def add_movie_view_event_go_back(self):
+        self.__views["add movie view"].pack_forget()
+        self.__views["home view"].pack(expand=True, fill="both")

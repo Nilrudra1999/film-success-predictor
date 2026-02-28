@@ -42,7 +42,7 @@ class HomeView(CTkFrame):
         
         self.predict_btn = self.make_button(
             self.btn_frame, "Make Prediction",
-            "Uses ML to estimate box office and ratings performance",
+            "Uses Machine Learning to estimate box office and ratings performance",
             lambda: self.controller.home_view_event_predict_movie()
         )
         self.add_movie_btn = self.make_button(
@@ -54,7 +54,7 @@ class HomeView(CTkFrame):
         self.add_movie_btn.pack(side="left", padx=20)
         
         self.button_info = CTkLabel( # explains button functions
-            self.subtext_frame, text="", font=("System", 22),
+            self.subtext_frame, text="", font=("Terminal", 22),
             text_color=TEXT_SECONDARY_COLOR
         )
         self.button_info.pack()
