@@ -27,11 +27,9 @@ class AddMovieView(CTkFrame):
         self.form_frame = self.make_frame(self, 780, 680)
         self.form_frame.pack_propagate(False)
         self.form_frame.place(x=20, y=20)
-        
         self.form_info_frame = self.make_frame(self, 400, 680)
         self.form_info_frame.pack_propagate(False)
         self.form_info_frame.place(x=820, y=20)
-        
         self.back_btn = self.make_back_button(
             self, "B\nA\nC\nK",
             lambda: self.controller.add_movie_view_event_go_back()
