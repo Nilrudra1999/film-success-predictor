@@ -5,11 +5,10 @@
     Email: nilrudram@gmail.com
     Github: github.com/Nilrudra1999
 ------------------------------------------------------------------------------------------------"""
-from customtkinter import CTk
 from re import match
+from customtkinter import CTk
 from views.home_view import HomeView
 from views.predictor_view import PredictorView
-from views.add_movie_view import AddMovieView
 
 BG_COLOR_LIGHT = "#28253b"
 BG_COLOR_DARK  = "#13121e"
@@ -34,10 +33,11 @@ class AppController:
         self.__views = {
             "home view": HomeView(self, self.get_window()),
             "predictor view": PredictorView(self, self.get_window()),
-            "add movie view": AddMovieView(self, self.get_window())
         }
+        print("app ready for action") # add models here later
     
     
+    # ---------- main application methods ----------
     def get_window(self):
         return self.__window
 
@@ -46,69 +46,61 @@ class AppController:
         self.__views["home view"].pack(expand=True, fill="both")
         self.__window.mainloop()
     
+    
 
-    def home_view_event_predict_movie(self):
+    # ---------- button event methods ----------
+    def home_view_handle_changing_views(self):
         self.__views["home view"].pack_forget()
         self.__views["predictor view"].pack(expand=True, fill="both")
     
 
-    def home_view_event_add_movie(self):
-        self.__views["home view"].pack_forget()
-        self.__views["add movie view"].pack(expand=True, fill="both")
-
-
-    def add_movie_view_event_go_back(self):
-        self.__views["add movie view"].pack_forget()
-        self.__views["home view"].pack(expand=True, fill="both")
-    
-
-    def predict_view_event_go_back(self):
+    def predict_view_handle_going_back(self):
         self.__views["predictor view"].pack_forget()
         self.__views["home view"].pack(expand=True, fill="both")
+        
     
-    
-    def predictor_form_error_clearing(self, view):
-        view.input_error_label.configure(text="")
-        view.dir_name_tbox.configure(border_color="#110f24")
-        view.genre_name_tbox.configure(border_color="#110f24")
-        view.Prod_bgt_tbox.configure(border_color="#110f24")
-        view.actor_name_tbox.configure(border_color="#110f24")
-        view.writer_name_tbox.configure(border_color="#110f24")
-
-
-
-    def predict_view_event_clear_form(self):
+    def predict_view_handle_clearing_form(self):
         view = self.__views["predictor view"]
-        view.dir_name_tbox.delete(0, "end")
-        view.genre_name_tbox.delete(0, "end")
-        view.Prod_bgt_tbox.delete(0, "end")
-        view.actor_name_tbox.delete(0, "end")
-        view.writer_name_tbox.delete(0, "end")
-        self.predictor_form_error_clearing(view)
+        view.dir_name_ebox.delete(0, "end")
+        view.genre_name_ebox.delete(0, "end")
+        view.prod_bgt_ebox.delete(0, "end")
+        view.actor_name_ebox.delete(0, "end")
+        view.writer_name_ebox.delete(0, "end")
+        self.helper_clear_form_errors(view)
+        
     
-    
-    
-    def valid_response(self, input_box, regex):
-        user_input = input_box.get().strip()
-        if not match(regex, user_input):
-            input_box.configure(border_color="#b42b68")
-            return False
-        else:
-            return True
-    
-    
-    
-    def predict_view_event_input_validation(self):
+    def predict_view_handle_making_prediction(self):
         view = self.__views["predictor view"]
         valid = True
         error_text = "ERROR: Add valid responses to highlighted boxes."
+        error_text = error_text + " Only enter valid names or numbers/decimals."
         re_name = r"^[A-Za-z\s\-\']+$"
         re_num = r"^\d+(\.\d{1,2})?$"
-        self.predictor_form_error_clearing(view)
-        valid = self.valid_response(view.dir_name_tbox, re_name) and valid
-        valid = self.valid_response(view.genre_name_tbox, re_name) and valid
-        valid = self.valid_response(view.Prod_bgt_tbox, re_num) and valid
-        valid = self.valid_response(view.actor_name_tbox, re_name) and valid
-        valid = self.valid_response(view.writer_name_tbox, re_name) and valid
+        self.helper_clear_form_errors(view)
+        valid = self.helper_validate_input(view.dir_name_ebox, re_name) and valid
+        valid = self.helper_validate_input(view.genre_name_ebox, re_name) and valid
+        valid = self.helper_validate_input(view.prod_bgt_ebox, re_num) and valid
+        valid = self.helper_validate_input(view.actor_name_ebox, re_name) and valid
+        valid = self.helper_validate_input(view.writer_name_ebox, re_name) and valid
         if not valid:
-            view.input_error_label.configure(text=error_text)
+            view.input_err_label.configure(text=error_text)
+            return
+        print("a prediction would be made here") # add models here
+    
+    
+    
+    # ---------- application wide helper methods ----------
+    def helper_clear_form_errors(self, view):
+        view.input_err_label.configure(text="")
+        view.dir_name_ebox.configure(border_color="#110f24")
+        view.genre_name_ebox.configure(border_color="#110f24")
+        view.prod_bgt_ebox.configure(border_color="#110f24")
+        view.actor_name_ebox.configure(border_color="#110f24")
+        view.writer_name_ebox.configure(border_color="#110f24")
+    
+    
+    def helper_validate_input(self, input_box, regex):
+        valid = match(regex, input_box.get().strip())
+        if not valid:
+            input_box.configure(border_color="#b42b68")
+        return valid

@@ -26,38 +26,30 @@ class HomeView(CTkFrame):
         self.controller = controller
         self.title1 = self.make_label(self, "Film Success", 64)
         self.title2 = self.make_label(self, "P R E D I C T O R", 128)
-        self.btn_frame = CTkFrame(self, fg_color=BG_COLOR_ALL)
-        self.subtext_frame = CTkFrame(self, fg_color=BG_COLOR_ALL)
-        self.btn_info = self.make_label(self.subtext_frame, "", 22)
-        self.predict_btn = self.make_button(
-            self.btn_frame, "Make Prediction",
-            "Uses Machine Learning to estimate box-office revenues & ratings",
-            lambda: self.controller.home_view_event_predict_movie()
+        btn_text = "Machine Learning based box-office & ratings predictions"
+        self.change_to_predict_view_btn = self.make_button(
+            self, "Make Prediction", btn_text,
+            lambda: self.controller.home_view_handle_changing_views()
         )
-        self.add_movie_btn = self.make_button(
-            self.btn_frame, "Add New Movie",
-            "Updates the local database with new a new movie",
-            lambda: self.controller.home_view_event_add_movie()
-        )
+        self.btn_info = self.make_label(self, "", 22)
         self.set_view_widgets()
     
     
     
+    # ---------- constructor helper ----------
     def set_view_widgets(self):
         self.title1.pack(pady=(150, 0))
         self.title2.configure(text_color=TEXT_SECONDARY_COLOR)
         self.title2.configure(font=("System", 128))
         self.title2.pack()
-        self.btn_frame.pack(pady=50)
-        self.predict_btn.pack(side="left", padx=20)
-        self.add_movie_btn.pack(side="left", padx=20)
-        self.subtext_frame.pack(pady=10)
+        self.change_to_predict_view_btn.pack(padx=20, pady=(70, 40))
         self.btn_info.configure(text_color=TEXT_SECONDARY_COLOR)
         self.btn_info.configure(font=("Terminal", 22))
         self.btn_info.pack()
     
     
     
+    # ---------- widget creation helpers ----------
     def make_label(self, root, text: str, font_size: int):
         return CTkLabel(
             master=root, text=text, font=("System", font_size, "bold"),
@@ -65,14 +57,13 @@ class HomeView(CTkFrame):
         )
     
     
-    
     def make_button(self, root, text: str, subtext: str, function):
         btn = CTkButton(
             master=root, 
             text=text, font=("System", 32),
-            text_color=TEXT_PRIMARY_COLOR,
+            text_color=TEXT_PRIMARY_COLOR, 
             fg_color=BG_COLOR_ALL,
-            width=275, height=45,
+            width=325, height=50, 
             hover=False, command=function
         )
         btn.bind("<Enter>", lambda e: [
